@@ -28,7 +28,7 @@ def get_prediction(symbol):
     data = request.get_json()
     
     today = datetime.date.today()
-    data = get_history(symbol="RELIANCE", start = today - datetime.timedelta(days = 15), end = today)
+    data = get_history(symbol=symbol, start = today - datetime.timedelta(days = 15), end = today)
 
     last_week = data[(today - datetime.timedelta(days = 15)):(today - datetime.timedelta(days = 7))]
     this_week = data[(today - datetime.timedelta(days = 7)):today]
