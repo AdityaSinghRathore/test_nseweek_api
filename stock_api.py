@@ -1,4 +1,5 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, send_from_directory
+import os
 from flask_cors import CORS
 import json
 from nsetools import Nse
@@ -8,12 +9,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 
 nse = Nse()
-app = Flask(__name__,  static_folder="build/static", template_folder="build")
+app = Flask(__name__,  static_folder="build")
 cors = CORS(app)
 
-@app.route("/")
-def frontend():
-    return render_template('index.html')
+
+# Serve React App
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route('/api/predict/<symbol>')
