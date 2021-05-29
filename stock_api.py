@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, flash, jsonify
+from flask import Flask, request, render_template, jsonify
 from flask_cors import CORS
 import json
 from nsetools import Nse
@@ -8,8 +8,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 
 nse = Nse()
-app = Flask(__name__)
+app = Flask(__name__,  static_folder="build/static", template_folder="build")
 cors = CORS(app)
+
+@app.route("/")
+def frontend():
+    return render_template('index.html')
 
 
 @app.route('/api/predict/<symbol>')
