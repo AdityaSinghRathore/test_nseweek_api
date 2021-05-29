@@ -1,0 +1,5 @@
+flask
+flask-cors
+nsepy
+nsetools
+scikit-learn
